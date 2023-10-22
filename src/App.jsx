@@ -11,8 +11,6 @@ function App() {
     <Container>
       <Row>
         <Col className="text-center">
-          <h1>React Authentication Tutorial</h1>
-
           <section id="navigation">
             <Link to="/">Home</Link>
             <Link to="/free">Free Component</Link>
