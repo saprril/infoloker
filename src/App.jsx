@@ -1,35 +1,20 @@
 import React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { Container, Col, Row } from "react-bootstrap";
-import Account from "./Account";
-import FreeComponent from "./FreeComponent";
-import AuthComponent from "./AuthComponent";
-import ProtectedRoutes from "./ProtectedRoutes";
-
+import { NavbarDefault } from "./components/NavbarDefault";
+import { LikeButton } from "./components/LikeButton";
+import { Register } from "./pages/Register";
+import { Login } from "./pages/Login";
+import { Home } from "./pages/Home";
 function App() {
   return (
-    <Container>
-      <h1>Hello</h1>
-      <Row>
-        <Col className="text-center">
-          <section id="navigation">
-            <Link to="/">Home</Link>
-            <Link to="/free">Free Component</Link>
-            <Link to="/auth">Auth Component</Link>
-          </section>
-        </Col>
-      </Row>
-
-      {/* define routes using the Routes component */}
-      <Routes>
-        <Route path="/" element={<Account />} />
-        <Route path="/free" element={<FreeComponent />} />
-        <Route path="/auth" element={<ProtectedRoutes component={AuthComponent} />} />
-      </Routes>
-
-      {/* The Outlet component renders the matched route's content */}
-      <Outlet />
-    </Container>
+    <>
+    <NavbarDefault/>
+    <Routes>
+      <Route path="/" element={<Home/>}/>
+      <Route path="/register" element={<Register/>}/>
+      <Route path="/login" element={<Login/>}/> 
+    </Routes>
+    </>
   );
 }
 
