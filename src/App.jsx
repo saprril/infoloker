@@ -9,6 +9,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 function App() {
   return (
     <Container>
+      <h1>Hello</h1>
       <Row>
         <Col className="text-center">
           <section id="navigation">
