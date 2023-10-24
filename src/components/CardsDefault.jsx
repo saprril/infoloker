@@ -9,7 +9,8 @@ import {
 } from "@material-tailwind/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-export function CardsDefault({ title, company, location, maxSalary, likes}) {
+
+export function CardsDefault({ title, company, location, maxSalary, likes, no}) {
     return (
         <Card className="mt-6 w-96">
             <CardBody>
@@ -50,12 +51,12 @@ export function CardsDefault({ title, company, location, maxSalary, likes}) {
             </CardBody>
             <CardFooter className="pt-0 flex justify-between">
                 <div>
-                <IconButton>
+                <IconButton color="indigo">
                     <FontAwesomeIcon icon={faHeart} />
                 </IconButton>
                 <p className="text-sm text-gray-500 inline-block ml-3" >{likes} Suka</p>
                 </div>
-                <a href="#" className="inline-block">
+                <a href={`/detail/${no}`} className="inline-block">
                     <Button size="sm" variant="text" className="flex items-center gap-2">
                         Detil
                         <svg

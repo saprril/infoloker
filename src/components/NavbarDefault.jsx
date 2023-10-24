@@ -28,7 +28,7 @@ export function NavbarDefault() {
                 className="flex items-center gap-x-2 p-1 font-medium"
             >
 
-                <a href="#" className="flex items-center">
+                <a href="/" className="flex items-center">
                     Lowongan
                 </a>
             </Typography>
@@ -51,7 +51,7 @@ export function NavbarDefault() {
                 color="blue-gray"
                 className="flex items-center gap-x-2 p-1 font-medium"
             >
-                <a href="#" className="flex items-center">
+                <a href={`/history`} className="flex items-center">
                     Dilamar
                 </a>
             </Typography>
