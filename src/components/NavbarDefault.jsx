@@ -27,10 +27,11 @@ export function NavbarDefault() {
                 color="blue-gray"
                 className="flex items-center gap-x-2 p-1 font-medium"
             >
-
-                <a href="/" className="flex items-center">
+                <Link to={"/"}>
+                <a className="flex items-center">
                     Lowongan
                 </a>
+                </Link>
             </Typography>
 
             <Typography
@@ -131,12 +132,16 @@ export function NavbarDefault() {
                 <div className="container mx-auto">
                     {navList}
                     <div className="flex items-center gap-x-1">
+                        <Link to={"/register"}>
                         <Button fullWidth variant="text" size="sm" className="">
-                            <span>Log In</span>
+                            <span>Register</span>
                         </Button>
+                        </Link>
+                        <Link to={"/login"}>
                         <Button fullWidth variant="gradient" size="sm" className="">
-                            <span>Sign in</span>
+                            <span>Login</span>
                         </Button>
+                        </Link>
                     </div>
                 </div>
             </MobileNav>
