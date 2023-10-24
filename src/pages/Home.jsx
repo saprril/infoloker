@@ -15,6 +15,7 @@ export function Home() {
     const [search, setSearch] = useState('');
     const [minUsia, setMinUsia] = useState(0);
     const [maxUsia, setMaxUsia] = useState(999);
+    const [currentPage, setCurrentPage] = useState(1);
          
     return (
         <>
@@ -28,7 +29,6 @@ export function Home() {
                     />
                 </div>
                 <div className="mt-3 flex items-center">
-                    <Button className='z-10'>Rp</Button>
                     <input
                         type="number"
                         placeholder="Usia Minimum"
@@ -37,7 +37,6 @@ export function Home() {
                     />
                 </div>
                 <div className="mt-2 flex items-center">
-                    <Button className='z-10'>Rp</Button>
                     <input
                         type="number"
                         placeholder="Usia Maksimum"
@@ -69,7 +68,7 @@ export function Home() {
                 </div>
             </div>
             <div className="mx-auto max-w-screen-xl px-80 mt-8">
-                <DefaultPagination />
+                <DefaultPagination pageCount={10}/>
             </div>
         </>
     );
