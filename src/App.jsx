@@ -5,6 +5,9 @@ import { LikeButton } from "./components/LikeButton";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { Home } from "./pages/Home";
+import { History } from "./pages/History";
+import { Detail } from "./pages/Detail";
+
 function App() {
   return (
     <>
@@ -13,6 +16,8 @@ function App() {
       <Route path="/" element={<Home/>}/>
       <Route path="/register" element={<Register/>}/>
       <Route path="/login" element={<Login/>}/> 
+      <Route path="/history" element={<History/>}/>
+      <Route path="/detail/:id" element={<Detail/>}/>
     </Routes>
     </>
   );
