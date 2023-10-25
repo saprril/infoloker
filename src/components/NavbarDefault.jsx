@@ -13,11 +13,11 @@ import { redirect } from "react-router-dom";
 const cookies = new Cookies();
 
 
-export function NavbarDefault() {
+export function NavbarDefault({isLogin}) {
     const [openNav, setOpenNav] = React.useState(false);
-    const [isLogged, setIsLogged] = React.useState(false);
+    const [isLogged, setIsLogged] = React.useState(isLogin);
 
-    console.log(isLogged);
+    //console.log(isLogged);
     React.useEffect(() => {
         window.addEventListener(
             "resize",
@@ -113,7 +113,7 @@ export function NavbarDefault() {
                                 // Remove the TOKEN cookie and log the user out
                                 cookies.remove("TOKEN");
                                 setIsLogged(false);
-                                redirect("/");
+                                window.location.reload();
                             }}
                         >
                             <span>Logout</span>

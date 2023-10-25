@@ -8,13 +8,14 @@ import {
 import React, {useState} from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const cookies = new Cookies();
-export function Login() {
+export function Login({isLogin}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    
+    const history = useNavigate(); // Access the history object
+
     const handleLogin = (e) => {
         e.preventDefault();
         const configuration = {
@@ -28,8 +29,9 @@ export function Login() {
         axios(configuration)
         .then((result) => {
             cookies.set("TOKEN", result.data.token, {path: "/"});
-            console.log(cookies.get("TOKEN"));
-            redirect("/");
+            //console.log(cookies.get("TOKEN"));
+            history("/");
+            window.location.reload();
         })
         .catch((err) =>{
             err = new Error();
