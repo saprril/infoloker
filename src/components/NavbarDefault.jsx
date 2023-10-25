@@ -9,12 +9,15 @@ import {
 import { Link } from "react-router-dom";
 import { Badge } from "react-bootstrap";
 import Cookies from "universal-cookie";
+import { redirect } from "react-router-dom";
+const cookies = new Cookies();
+
+
 export function NavbarDefault() {
     const [openNav, setOpenNav] = React.useState(false);
     const [isLogged, setIsLogged] = React.useState(false);
-    const cookies = new Cookies();
 
-
+    console.log(isLogged);
     React.useEffect(() => {
         window.addEventListener(
             "resize",
@@ -110,6 +113,7 @@ export function NavbarDefault() {
                                 // Remove the TOKEN cookie and log the user out
                                 cookies.remove("TOKEN");
                                 setIsLogged(false);
+                                redirect("/");
                             }}
                         >
                             <span>Logout</span>
@@ -186,7 +190,7 @@ export function NavbarDefault() {
                                     // Remove the TOKEN cookie and log the user out
                                     cookies.remove("TOKEN");
                                     setIsLogged(false);
-                                    window.href.location = "/";
+                                    redirect("/");
                                     console.log("logout")
                                 }}
                             >

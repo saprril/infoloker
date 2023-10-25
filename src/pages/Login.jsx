@@ -8,11 +8,13 @@ import {
 import React, {useState} from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { redirect } from "react-router-dom";
+
 const cookies = new Cookies();
 export function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    
     const handleLogin = (e) => {
         e.preventDefault();
         const configuration = {
@@ -26,8 +28,8 @@ export function Login() {
         axios(configuration)
         .then((result) => {
             cookies.set("TOKEN", result.data.token, {path: "/"});
-            console.log(result);
-            window.href.location = "/register";
+            console.log(cookies.get("TOKEN"));
+            redirect("/");
         })
         .catch((err) =>{
             err = new Error();
