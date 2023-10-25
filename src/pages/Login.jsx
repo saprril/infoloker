@@ -5,7 +5,35 @@ import {
     Typography,
 } from "@material-tailwind/react";
 
+import React, {useState} from "react";
+import axios from "axios";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 export function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        const configuration = {
+            method: "post",
+            url: "https://auth-server-sigma.vercel.app/login",
+            data: {
+                email: email,
+                password: password,
+            },
+        };
+        axios(configuration)
+        .then((result) => {
+            cookies.set("TOKEN", result.data.token, {path: "/"});
+            console.log(result);
+            window.href.location = "/register";
+        })
+        .catch((err) =>{
+            err = new Error();
+        })
+
+    }
     return (
         <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
             <div className="mx-auto max-w-md px-6 py-12 bg-white border-0 shadow-lg sm:rounded-3xl">
@@ -28,6 +56,7 @@ export function Login() {
                                 labelProps={{
                                     className: "before:content-none after:content-none",
                                 }}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                             <Typography variant="h6" color="blue-gray" className="-mb-3">
                                 Password
@@ -40,9 +69,14 @@ export function Login() {
                                 labelProps={{
                                     className: "before:content-none after:content-none",
                                 }}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
-                        <Button className="mt-6" fullWidth>
+                        <Button 
+                        className="mt-6" 
+                        fullWidth
+                        onClick={handleLogin}
+                        >
                             Login
                         </Button>
                         <Typography color="gray" className="mt-4 text-center font-normal">
