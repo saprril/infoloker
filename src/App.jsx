@@ -19,7 +19,7 @@ function App() {
   }
   return (
     <>
-    <NavbarDefault isLogin={isLogin}/>
+    <NavbarDefault/>
     <Routes>
       <Route path="/" element={<Home/>}/>
       <Route path="/register" element={<Register/>}/>

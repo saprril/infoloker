@@ -13,9 +13,9 @@ import { redirect } from "react-router-dom";
 const cookies = new Cookies();
 
 
-export function NavbarDefault({isLogin}) {
+export function NavbarDefault() {
     const [openNav, setOpenNav] = React.useState(false);
-    const [isLogged, setIsLogged] = React.useState(isLogin);
+    const [isLogged, setIsLogged] = React.useState(false);
 
     //console.log(isLogged);
     React.useEffect(() => {
