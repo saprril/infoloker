@@ -11,7 +11,9 @@ import {
 } from "@material-tailwind/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faUsers } from '@fortawesome/free-solid-svg-icons';
 import { jobs } from "../jobData";
+import { LikeButton } from "../components/LikeButton";
 
 export function Detail() {
   // Get the job ID parameter from the URL
@@ -29,20 +31,6 @@ export function Detail() {
   
   const navigate = useNavigate();
 
-  // const [isLiked, setIsLiked] = useState(false); // State untuk melacak apakah tombol hati ditekan
-  // const [likes, setLikes] = useState(selectedJob.likes); // State untuk melacak jumlah "Likes"
-
-  // // Fungsi untuk menangani ketika tombol hati ditekan
-  // const handleLikeClick = () => {
-  //   if (!isLiked) {
-  //     // Jika belum disukai, tambahkan 1 ke jumlah "Likes"
-  //     setLikes(likes + 1);
-  //   } else {
-  //     // Jika sudah disukai, kurangi 1 dari jumlah "Likes"
-  //     setLikes(likes - 1);
-  //   }
-  //   setIsLiked(!isLiked); // Ubah status tombol hati
-  // };
 
   return (
     <div className="mx-auto max-w-screen-xl p-4">
@@ -98,7 +86,7 @@ export function Detail() {
      
         <div className="flex">
           <div className="w-1/2 p-2">
-            <p>Minimum Education: {selectedJob.minEdu}</p>
+            <p>Pendidikan Minimal: {selectedJob.minEdu}</p>
             <p>Umur: {selectedJob.minUsia} - {selectedJob.maxUsia} tahun</p>
           </div>
           <div className="w-1/2 p-2">
@@ -108,13 +96,12 @@ export function Detail() {
           </div>
         </div>
         <br></br>
-        {/* <IconButton color="indigo" onClick={handleLikeClick}>
-          <FontAwesomeIcon icon={faHeart} color={isLiked ? "red" : "black"} />
-        </IconButton> */}
-        <IconButton color="indigo">
-          <FontAwesomeIcon icon={faHeart}/>
+
+        <LikeButton likes={selectedJob.likes}></LikeButton>
+        <IconButton color="indigo" className="ml-6">
+          <FontAwesomeIcon icon={faUsers}/>
         </IconButton>
-        <p className="text-sm text-gray-500 inline-block ml-3" >{selectedJob.likes} Suka</p>
+        <p className="text-sm text-gray-500 inline-block ml-3" >{selectedJob.jumlahPelamar} Pelamar</p>
       </div>
       <div className="text-center mt-10">
         <Button className="px-20" color="red">Apply</Button>

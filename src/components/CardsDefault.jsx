@@ -9,53 +9,55 @@ import {
 } from "@material-tailwind/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { LikeButton } from "./LikeButton";
 
-export function CardsDefault({ title, company, location, maxSalary, likes, no}) {
+export function CardsDefault({ title, company, location, maxSalary, likes, no, minSalary, minEdu, minUsia, maxUsia }) {
+    const truncate = (str, maxLength) => {
+        if (!str) return "";
+        if (str.length <= maxLength) return str;
+        return str.substring(0, maxLength) + "...";
+    };
+
     return (
-        <Card className="mt-6 w-96">
+        <Card className="mt-6 w-96 sm:grid-flow-col">
             <CardBody>
-                <table class="table-auto">
-                    <thead>
-                    </thead>
+                <table className="table-auto">
                     <tbody>
                         <tr>
-                            <td>
-                                <b>Jabatan</b>
-                            </td>
+                            <td><b>Jabatan</b></td>
                             <td className="w-7"></td>
-                            <td>{title}</td>
+                            <td>{truncate(title, 24)}</td>
                         </tr>
                         <tr>
-                            <td>
-                                <b>Perusahaan</b>
-                            </td>
+                            <td><b>Perusahaan</b></td>
                             <td className="w-7"></td>
-                            <td>{company}</td>
+                            <td>{truncate(company, 24)}</td>
                         </tr>
                         <tr>
-                            <td>
-                                <b>
-                                Lokasi
-                                </b>
-                            </td>
+                            <td><b>Lokasi</b></td>
                             <td className="w-7"></td>
-                            <td>{location}</td>
+                            <td>{truncate(location, 24)}</td>
                         </tr>
                         <tr>
-                            <td><b> Gaji Maks.</b></td>
+                            <td><b>Gaji</b></td>
                             <td className="w-7"></td>
-                            <td>{maxSalary}</td>
+                            <td>{truncate(`${minSalary} - ${maxSalary}`, 24)}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Usia</b></td>
+                            <td className="w-7"></td>
+                            <td>{truncate(`${minUsia} - ${maxUsia}`, 24)} tahun</td>
+                        </tr>
+                        <tr>
+                            <td><b>Pendidikan</b></td>
+                            <td className="w-7"></td>
+                            <td>{truncate(minEdu, 24)}</td>
                         </tr>
                     </tbody>
                 </table>
             </CardBody>
             <CardFooter className="pt-0 flex justify-between">
-                <div>
-                <IconButton color="indigo">
-                    <FontAwesomeIcon icon={faHeart} />
-                </IconButton>
-                <p className="text-sm text-gray-500 inline-block ml-3" >{likes} Suka</p>
-                </div>
+                <div><LikeButton likes={likes}></LikeButton></div>
                 <a href={`/detail/${no}`} className="inline-block">
                     <Button size="sm" variant="text" className="flex items-center gap-2">
                         Detil
@@ -79,3 +81,4 @@ export function CardsDefault({ title, company, location, maxSalary, likes, no}) 
         </Card>
     );
 }
+
