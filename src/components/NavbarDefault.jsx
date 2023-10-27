@@ -8,15 +8,19 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { Badge } from "react-bootstrap";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 export function NavbarDefault() {
     const [openNav, setOpenNav] = React.useState(false);
-
+    const [isLogged, setIsLogged] = React.useState(false);
     React.useEffect(() => {
-        window.addEventListener(
-            "resize",
-            () => window.innerWidth >= 960 && setOpenNav(false),
-        );
+        const token = cookies.get("TOKEN");
+        if (token) {
+            setIsLogged(true); // If TOKEN cookie is present, user is logged in
+        }
+
+        window.addEventListener("resize", () => window.innerWidth >= 960 && setOpenNav(false));
     }, []);
 
     const navList = (
@@ -75,20 +79,38 @@ export function NavbarDefault() {
 
                 </Link>
                 <div className="flex items-center gap-x-1">
-                    <Link to="/register" className="hidden lg:inline-block">
-                    <Button variant="text" size="sm" className="hidden lg:inline-block" href="/register">
-                        <span>Register</span>
-                    </Button>
-                    </Link>
-                    <Link to="/login" className="hidden lg:inline-block">
-                    <Button
-                        variant="gradient"
-                        size="sm"
-                        className="hidden lg:inline-block fill-gray-700"
-                        >
-                        <span>Login</span>
-                    </Button>
+                    {isLogged ? ( // Conditionally render Profile and Logout buttons
+                        <Link to="/profile" className="hidden lg:inline-block">
+                            <Button variant="text" size="sm">
+                                <span>Profile</span>
+                            </Button>
                         </Link>
+                    ) : (<>
+                        <Link to="/register" className="hidden lg:inline-block">
+                            <Button variant="text" size="sm">
+                                <span>Register</span>
+                            </Button>
+                        </Link>
+                        <Link to="/login" className="hidden lg:inline-block">
+                            <Button variant="gradient" size="sm" className="fill-gray-700">
+                                <span>Login</span>
+                            </Button>
+                        </Link>
+                    </>
+                    )}
+                    {isLogged && ( // Conditionally render Logout button
+                        <Button
+                            variant="text"
+                            size="sm"
+                            onClick={() => {
+                                // Remove the TOKEN cookie and log the user out
+                                cookies.remove("TOKEN");
+                                setIsLogged(false);
+                            }}
+                        >
+                            <span>Logout</span>
+                        </Button>
+                    )}
                 </div>
                 <IconButton
                     variant="text"

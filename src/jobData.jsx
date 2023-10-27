@@ -41,7 +41,7 @@ export const jobs = [
         "likes": 180,
         "jumlahPelamar": 71 
     },
-    // Entry 3
+    
 {
     "no": 3,
     "title": "Junior Graphic Designer",
@@ -63,7 +63,7 @@ export const jobs = [
     "likes": 120,
     "jumlahPelamar": 20
 },
-// Entry 4
+
 {
     "no": 4,
     "title": "Content Writer",
@@ -85,7 +85,7 @@ export const jobs = [
     "likes": 160,
     "jumlahPelamar": 55 
 },
-// Entry 5
+
 {
     "no": 5,
     "title": "Sales Representative",
@@ -107,16 +107,16 @@ export const jobs = [
     "likes": 140,
     "jumlahPelamar": 72 
 },
-// Entry 6
+
 {
     "no": 6,
-    "title": "Data Entry Clerk",
+    "title": "Data  Clerk",
     "company": "DataWorks Inc.",
     "location": "Jakarta, Indonesia",
     "maxSalary": "Rp. 1.500.000",
     "minSalary": "Rp. 1.200.000",
     "type": "Full Time",
-    "description": "We are in need of a meticulous and detail-oriented Data Entry Clerk to input and manage data accurately. Your responsibilities include verifying data and maintaining accurate records.",
+    "description": "We are in need of a meticulous and detail-oriented Data  Clerk to input and manage data accurately. Your responsibilities include verifying data and maintaining accurate records.",
     "requirement": ["Proficiency in data entry and management", "Strong attention to detail and accuracy", "Ability to work efficiently in a fast-paced environment"],
     "benefit": ["Competitive salary and performance-based incentives", "Opportunities for skill development and career advancement", "Supportive and collaborative work environment"],
     "maxUsia": 30,
@@ -129,7 +129,7 @@ export const jobs = [
     "likes": 150,
     "jumlahPelamar": 76 
 },
-// Entry 7
+
 {
     "no": 7,
     "title": "Junior Web Developer",
@@ -151,7 +151,7 @@ export const jobs = [
     "likes": 160,
     "jumlahPelamar": 38 
 },
-// Entry 8
+
 {
     "no": 8,
     "title": "Administrative Assistant",
@@ -173,7 +173,7 @@ export const jobs = [
     "likes": 170,
     "jumlahPelamar": 81 
 },
-// Entry 9
+
 {
     "no": 9,
     "title": "Warehouse Associate",
@@ -195,7 +195,7 @@ export const jobs = [
     "likes": 180,
     "jumlahPelamar": 94 
 },
-// Entry 10
+
 {
     "no": 10,
     "title": "Junior Accountant",
@@ -217,7 +217,7 @@ export const jobs = [
     "likes": 190,
     "jumlahPelamar": 23 
 },
-// Entry 11
+
 {
     "no": 11,
     "title": "Social Media Specialist",
@@ -239,7 +239,7 @@ export const jobs = [
     "likes": 200,
     "jumlahPelamar": 63 
 },
-// Entry 12
+
 {
     "no": 12,
     "title": "Customer Service Representative",
@@ -261,7 +261,7 @@ export const jobs = [
     "likes": 210,
     "jumlahPelamar": 23 
 },
-// Entry 13
+
 {
     "no": 13,
     "title": "HR Assistant",
@@ -283,7 +283,7 @@ export const jobs = [
     "likes": 220,
     "jumlahPelamar": 100 
 },
-// Entry 14
+
 {
     "no": 14,
     "title": "IT Support Specialist",
@@ -305,7 +305,7 @@ export const jobs = [
     "likes": 230,
     "jumlahPelamar": 45 
 },
-// Entry 15
+
 {
     "no": 15,
     "title": "Marketing Associate",
@@ -327,7 +327,7 @@ export const jobs = [
     "likes": 240,
     "jumlahPelamar": 32 
 },
-// Entry 16
+
 {
     "no": 16,
     "title": "Junior Software Engineer",
@@ -349,7 +349,7 @@ export const jobs = [
     "likes": 250,
     "jumlahPelamar": 21 
 },
-// Entry 17
+
 {
     "no": 17,
     "title": "Accounting Assistant",
@@ -371,7 +371,7 @@ export const jobs = [
     "likes": 260,
     "jumlahPelamar": 32 
 },
-// Entry 18
+
 {
     "no": 18,
     "title": "Logistics Coordinator",
@@ -393,7 +393,7 @@ export const jobs = [
     "likes": 270,
     "jumlahPelamar": 64
 },
-// Entry 19
+
 {
     "no": 19,
     "title": "Graphic Design Intern",
@@ -415,7 +415,7 @@ export const jobs = [
     "likes": 280,
     "jumlahPelamar": 98
 },
-// Entry 20
+
 {
     "no": 20,
     "title": "Content Marketing Manager",
