@@ -8,33 +8,13 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { CardList } from "../components/CardList";
 import { Pagination } from "../components/Pagination";
-import axios from "axios";
-
 export function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(9);
-  const [jobs1, setJobs1] = useState([]);
 
   const lastPostIndex = currentPage * postPerPage;
   const firstPostIndex = lastPostIndex - postPerPage;
-  const configuration = {
-    method: "get",
-    url: "https://auth-server-sigma.vercel.app/jobs/get",
-    data: {
-      page: currentPage,
-    },
-  };
-  axios(configuration)
-    .then((res) => {
-      //console.log(res.data.jobs);
-      
-      setJobs1(res.data.jobs);
-    })
-    .catch((err) => {
-      err = new Error();
-    });
-    //console.log(jobs1);
-    const currentPosts = jobs1;
+  const currentPosts = jobs.slice(firstPostIndex, lastPostIndex);
 
   return (
     <>
