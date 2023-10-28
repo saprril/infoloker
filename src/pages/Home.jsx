@@ -6,10 +6,12 @@ import { jobs } from "../jobData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { CardList } from "../components/CardList";
 import { Pagination } from "../components/Pagination";
 import { Spinner } from "@material-tailwind/react";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 export function Home() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,14 +25,20 @@ export function Home() {
   const [jobs1, setJobs1] = useState([]);
   const [matchedJobs, setMatchedJobs] = useState(0); 
   const [isLoading, setIsLoading] = useState(true); // Add a loading state
+  console.log(currentPage);
   useEffect(() => {
-    // Send the "page" parameter as a query parameter
+    // Send the query parameter
     setIsLoading(true);
     axios
       .get("http://auth-server-sigma.vercel.app/jobs/get", {
         params: {
           page: currentPage,
-          edu: currentPendidikan
+          edu: currentPendidikan,
+          search: encodeURIComponent(currentQuery),
+          maxUsia: currentMaxUsia,
+          minUsia: currentMinUsia,
+          maxSalary: currentMaxGaji,
+          minSalary: currentMinGaji
         }
       })
       .then((result) => {
@@ -42,8 +50,8 @@ export function Home() {
         console.error("Error fetching jobs:", err);
         setIsLoading(false);
       });
-  }, [currentPage]);
-  console.log(matchedJobs);
+  }, [currentPage, currentPendidikan, currentQuery, currentMaxUsia, currentMinUsia, currentMaxGaji, currentMinGaji]);
+  //console.log(matchedJobs);
   const lastPostIndex = currentPage * postPerPage;
   const firstPostIndex = lastPostIndex - postPerPage;
   //const currentPosts = jobs1;
@@ -55,6 +63,7 @@ export function Home() {
             type="text"
             placeholder="Cari Nama Loker"
             className="border border-gray-300 rounded-md w-full h-10 pl-10 pr-4 mt-7 inline-block"
+            onKeyUp={(e) => {setCurrentQuery(e.target.value); setCurrentPage(1);}}
           />
         </div>
         <div className="mx-auto max-w-screen-xl">
@@ -68,6 +77,7 @@ export function Home() {
                     className="border border-gray-300 rounded-md h-10 pl-10 pr-4 ml-[-13px]"
                     min={0}
                     max={999}
+                    onChange={(e) => {setCurrentMinUsia(e.target.value); setCurrentPage(1);}}
                   />
                   <Button className="z-10">
                     <FontAwesomeIcon icon={faUser} />
@@ -80,6 +90,7 @@ export function Home() {
                     className="border border-gray-300 rounded-md h-10 pl-10 pr-4 ml-[-13px]"
                     min={0}
                     max={999}
+                    onKeyUp={(e) => {setCurrentMaxUsia(e.target.value); setCurrentPage(1);}}
                   />
                   <Button className="z-10">
                     <FontAwesomeIcon icon={faUser} />
@@ -94,6 +105,7 @@ export function Home() {
                     className="border border-gray-300 rounded-md h-10 pl-10 pr-4 ml-[-13px]"
                     min={0}
                     max={99999999999999}
+                    onChange={(e) => {setCurrentMinGaji(e.target.value); setCurrentPage(1);}}
                   />
                   <Button className="z-10">Rp</Button>
                 </div>
@@ -104,8 +116,9 @@ export function Home() {
                     className="border border-gray-300 rounded-md h-10 pl-10 pr-4 ml-[-13px]"
                     min={0}
                     max={99999999999999}
+                    onChange={(e) => { setCurrentMaxUsia(e.target.value); setCurrentPage(1); }}
                   />
-                  <Button className="z-10">Rp</Button>
+                  <Button className="z-10" disabled={true}>Rp</Button>
                 </div>
               </td>
               <td className="text-center">
@@ -118,26 +131,8 @@ export function Home() {
                     placeholder="Pendidikan Minimum"
                     onChange={(e) => {
                       setCurrentPendidikan(e.target.value);
-                      console.log(currentPendidikan);
-                      setIsLoading(true);
-                      axios
-                        .get("http://auth-server-sigma.vercel.app/jobs/get", {
-                          params: {
-                            page: currentPage,
-                            edu: currentPendidikan
-                          }
-                        })
-                        .then((result) => {
-                          setJobs1(result.data.jobs);
-                          setMatchedJobs(result.data.count);
-                          setIsLoading(false);
-                        })
-                        .catch((err) => {
-                          console.error("Error fetching jobs:", err);
-                          setIsLoading(false);
-                        });
-                        setCurrentPage(1);
-                      }}
+                      setCurrentPage(1);
+                    }}
                   >
                     <option value="">-- Pendidikan Minimum --</option>
                     <option value="SMA">SMA</option>
@@ -145,10 +140,24 @@ export function Home() {
                     <option value="S1">S1</option>
                     <option value="S2">S2</option>
                   </select>
+
                 </div>
               </td>
               <td className="text-center">
-                <Button className="border border-gray-300 rounded-md h-10 px-4 mt-3" color="red">
+                <Button 
+                className="border border-gray-300 rounded-md h-10 px-4 mt-3" 
+                color="red"
+                onClick={
+                  () => {
+                    setCurrentQuery("");
+                    setCurrentMaxUsia("");
+                    setCurrentMinUsia("");
+                    setCurrentMaxGaji("");
+                    setCurrentMinGaji("");
+                    setCurrentPendidikan("");
+                    setCurrentPage(1);
+                  }
+                }>
                   <FontAwesomeIcon icon={faX}/>
                 </Button>
               </td>
@@ -171,6 +180,7 @@ export function Home() {
                   totalPosts={matchedJobs}
                   postPerPage={postPerPage}
                   setCurrentPage={setCurrentPage}
+                  currentPage={currentPage}
                 />
               </div>
         </div>

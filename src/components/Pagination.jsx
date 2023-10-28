@@ -18,14 +18,15 @@ export const Pagination = ({ totalPosts, postPerPage, setCurrentPage }) => {
 
   const next = () => {
     if (active === pageCount) return;
-    setActive(active + 1);
-    setCurrentPage(active + 1);
+    const newActive = active + 1;
+    setActive(newActive); // Update local state
+    setCurrentPage(newActive); // Update parent component state;
   };
 
   const prev = () => {
-    if (active === 1) return;
-    setActive(active - 1);
-    setCurrentPage(active - 1);
+    const newActive = active - 1;
+    setActive(newActive); // Update local state
+    setCurrentPage(newActive); // Update parent component state
   };
 
   const generatePageButtons = () => {
