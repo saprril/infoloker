@@ -51,7 +51,7 @@ export function Home() {
         setIsLoading(false);
       });
   }, [currentPage, currentPendidikan, currentQuery, currentMaxUsia, currentMinUsia, currentMaxGaji, currentMinGaji]);
-  //console.log(matchedJobs);
+  console.log(jobs1);
   const lastPostIndex = currentPage * postPerPage;
   const firstPostIndex = lastPostIndex - postPerPage;
   //const currentPosts = jobs1;

@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Button,
@@ -7,32 +7,49 @@ import {
 } from "@material-tailwind/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers } from '@fortawesome/free-solid-svg-icons';
-import { jobs } from "../jobData";
+//import { jobs } from "../jobData";
 import { LikeButton } from "../components/LikeButton";
-
+import axios from "axios";
+import { useEffect } from "react";
+import { Spinner } from "@material-tailwind/react";
 export function Detail() {
   // Get the job ID parameter from the URL
-  const { id } = useParams();
-
+  const { _id } = useParams();
+  const [selectedJob, setSelectedJob] = useState();
+  const [isLoading, setIsLoading] = useState(true); // Add a loading state
   // Replace this with your data (you can fetch it from an API or use state)
 
   // Find the job with the matching ID
-  const selectedJob = jobs.find((job) => job.no === parseInt(id));
+  useEffect(() => {
+    // Fetch the job with the matching ID when the component mounts
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://auth-server-sigma.vercel.app/jobs/detail/${_id}`);
+        setSelectedJob(response.data.job);
+      } catch (error) {
+        console.error("Error fetching job:", error);
+      }
+    };
+
+    fetchData();
+    setIsLoading(false);
+  }, [_id, isLoading]);
 
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR"
+      style: "currency",
+      currency: "IDR"
     }).format(number).replace(",00", "");
-};
+  };
 
   // Check if the job with the specified ID exists
-  if (!selectedJob) {
-    return <div>Job not found</div>;
-  }
-  
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  console.log(isLoading);
   const navigate = useNavigate();
+  if (!selectedJob) {
+      return <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900"> <Spinner color="blue" size="large" /> </div>;
+  }
+  //console.log(selectedJob);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
 
 
   return (
@@ -66,7 +83,7 @@ export function Detail() {
         <p className="text-gray-500">{selectedJob.type}</p>
         <p className="text-gray-500">{formatRupiah(selectedJob.minSalary)} - {formatRupiah(selectedJob.maxSalary)}</p>
         <p className="mt-4">{selectedJob.description}</p>
-      
+
         <br></br>
         <div className="flex">
           <div className="w-1/2 p-2">
@@ -86,7 +103,7 @@ export function Detail() {
             </ul>
           </div>
         </div>
-     
+
         <div className="flex">
           <div className="w-1/2 p-2">
             <p>Pendidikan Minimal: {selectedJob.minEdu}</p>
@@ -102,7 +119,7 @@ export function Detail() {
 
         <LikeButton likes={selectedJob.likes}></LikeButton>
         <IconButton color="indigo" className="ml-6">
-          <FontAwesomeIcon icon={faUsers}/>
+          <FontAwesomeIcon icon={faUsers} />
         </IconButton>
         <p className="text-sm text-gray-500 inline-block ml-3" >{selectedJob.jumlahPelamar} Pelamar</p>
       </div>

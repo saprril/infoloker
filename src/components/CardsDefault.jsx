@@ -9,7 +9,7 @@ import {
 import { LikeButton } from "./LikeButton";
 
 // eslint-disable-next-line react/prop-types
-export function CardsDefault({ title, company, location, maxSalary, likes, no, minSalary, minEdu, minUsia, maxUsia }) {
+export function CardsDefault({ id, title, company, location, maxSalary, likes, minSalary, minEdu, minUsia, maxUsia }) {
     const formatRupiah = (number) => {
         return new Intl.NumberFormat("id-ID", {
             style: "currency",
@@ -63,7 +63,7 @@ export function CardsDefault({ title, company, location, maxSalary, likes, no, m
             </CardBody>
             <CardFooter className="pt-0 flex justify-between">
                 <div><LikeButton likes={likes}></LikeButton></div>
-                <a href={`/detail/${no}`} className="inline-block">
+                <a href={`/detail/${id}`} className="inline-block">
                     <Button size="sm" variant="text" className="flex items-center gap-2">
                         Detil
                         <svg

@@ -80,7 +80,7 @@ export function NavbarDefault() {
                 </Link>
                 <div className="flex items-center gap-x-1">
                     {isLogged ? ( // Conditionally render Profile and Logout buttons
-                        <Link to="/profile" className="hidden lg:inline-block">
+                        <Link to="/profile/" className="hidden lg:inline-block">
                             <Button variant="text" size="sm">
                                 <span>Profile</span>
                             </Button>

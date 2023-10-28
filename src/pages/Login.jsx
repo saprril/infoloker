@@ -31,6 +31,7 @@ export function Login() {
         axios(configuration)
             .then((result) => {
                 cookies.set("TOKEN", result.data.token, { path: "/" });
+                cookies.set("USER", result.data._id, { path: "/" });
                 //console.log(cookies.get("TOKEN"));
                 setIsLoading(false);
                 history("/");

@@ -7,6 +7,7 @@ import { Home } from "./pages/Home";
 import { History } from "./pages/History";
 import { Detail } from "./pages/Detail";
 import { Liked } from "./pages/Liked";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -17,8 +18,9 @@ function App() {
       <Route path="/register" element={<Register/>}/>
       <Route path="/login" element={<Login/>}/> 
       <Route path="/history" element={<History/>}/>
-      <Route path="/detail/:id" element={<Detail/>}/>
+      <Route path="/detail/:_id" element={<Detail/>}/>
       <Route path="/liked" element={<Liked/>}/>
+      <Route path="/profile" element={<Profile/>}/>
     </Routes>
     </>
   );

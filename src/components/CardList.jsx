@@ -10,6 +10,7 @@ export const CardList = ({ page }) => {
                 return (
                     <CardsDefault
                         key={index}
+                        id={job._id}
                         title={job.title}
                         company={job.company}
                         location={job.location}
@@ -19,7 +20,6 @@ export const CardList = ({ page }) => {
                         minEdu={job.minEdu}
                         minUsia={job.minUsia}
                         maxUsia={job.maxUsia}
-                        no={job.no}
                     />
                 );
             })}
