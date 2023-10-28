@@ -1,17 +1,22 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import {
     Card,
     CardBody,
     CardFooter,
-    Typography,
     Button,
-    IconButton,
 } from "@material-tailwind/react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { LikeButton } from "./LikeButton";
 
+// eslint-disable-next-line react/prop-types
 export function CardsDefault({ title, company, location, maxSalary, likes, no, minSalary, minEdu, minUsia, maxUsia }) {
+    const formatRupiah = (number) => {
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR"
+        }).format(number).replace(",00", "");
+    };
+
     const truncate = (str, maxLength) => {
         if (!str) return "";
         if (str.length <= maxLength) return str;
@@ -41,7 +46,7 @@ export function CardsDefault({ title, company, location, maxSalary, likes, no, m
                         <tr>
                             <td><b>Gaji</b></td>
                             <td className="w-7"></td>
-                            <td>{truncate(`${minSalary} - ${maxSalary}`, 24)}</td>
+                            <td>{truncate(`${formatRupiah(minSalary)} - ${formatRupiah(maxSalary)}`, 24)}</td>
                         </tr>
                         <tr>
                             <td><b>Usia</b></td>
@@ -81,4 +86,3 @@ export function CardsDefault({ title, company, location, maxSalary, likes, no, m
         </Card>
     );
 }
-
