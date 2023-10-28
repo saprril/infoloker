@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { CardsDefault } from "../components/CardsDefault";
 import { jobs } from "../jobData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,14 +9,36 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { CardList } from "../components/CardList";
 import { Pagination } from "../components/Pagination";
+import { Spinner } from "@material-tailwind/react";
+import axios from "axios";
+
 export function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(9);
-
+  const [jobs1, setJobs1] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Add a loading state
+  useEffect(() => {
+    // Send the "page" parameter as a query parameter
+    setIsLoading(true);
+    axios
+      .get("http://auth-server-sigma.vercel.app/jobs/get", {
+        params: {
+          page: currentPage,
+        }
+      })
+      .then((result) => {
+        setJobs1(result.data.jobs);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching jobs:", err);
+        setIsLoading(false);
+      });
+  }, [currentPage]);
+  console.log(isLoading);
   const lastPostIndex = currentPage * postPerPage;
   const firstPostIndex = lastPostIndex - postPerPage;
-  const currentPosts = jobs.slice(firstPostIndex, lastPostIndex);
-
+  const currentPosts = jobs1;
   return (
     <>
       <div className="mx-auto max-w-screen-xl">
@@ -91,14 +114,22 @@ export function Home() {
         </div>
 
         <div>
-          <CardList page={currentPosts} />
-          <div className="mx-auto max-w-screen-xl px-80 my-8 flex justify-center">
-            <Pagination
-              totalPosts={jobs.length}
-              postPerPage={postPerPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </div>
+          {isLoading ? (
+            <div className="mx-auto flex items-center justify-center">
+            <Spinner /> 
+            </div> // Check loading state
+          ) : (
+            <>
+              <CardList page={currentPosts} />
+            </>
+          )}
+              <div className="mx-auto max-w-screen-xl px-80 my-8 flex justify-center">
+                <Pagination
+                  totalPosts={jobs.length}
+                  postPerPage={postPerPage}
+                  setCurrentPage={setCurrentPage}
+                />
+              </div>
         </div>
       </div>
     </>
