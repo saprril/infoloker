@@ -116,7 +116,7 @@ export function Home() {
                     className="border border-gray-300 rounded-md h-10 pl-10 pr-4"
                     min={0}
                     max={99999999999999}
-                    onChange={(e) => { setCurrentMaxUsia(e.target.value); setCurrentPage(1); }}
+                    onChange={(e) => { setCurrentMaxGaji(e.target.value); setCurrentPage(1); }}
                   />
                   <Button className="z-10" disabled={true}>Rp</Button>
                 </div>
