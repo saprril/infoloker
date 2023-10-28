@@ -118,7 +118,7 @@ export function Home() {
                     max={99999999999999}
                     onChange={(e) => { setCurrentMaxGaji(e.target.value); setCurrentPage(1); }}
                   />
-                  <Button className="z-10" disabled={true}>Rp</Button>
+                  <Button className="z-10">Rp</Button>
                 </div>
               </td>
               <td className="text-center">
