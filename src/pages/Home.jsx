@@ -74,7 +74,7 @@ export function Home() {
                   <input
                     type="number"
                     placeholder="Usia Minimum"
-                    className="border border-gray-300 rounded-md h-10 pl-10 pr-4 ml-[-13px]"
+                    className="border border-gray-300 rounded-md h-10 pl-10 pr-4"
                     min={0}
                     max={999}
                     onChange={(e) => {setCurrentMinUsia(e.target.value); setCurrentPage(1);}}
@@ -87,7 +87,7 @@ export function Home() {
                   <input
                     type="number"
                     placeholder="Usia Maksimum"
-                    className="border border-gray-300 rounded-md h-10 pl-10 pr-4 ml-[-13px]"
+                    className="border border-gray-300 rounded-md h-10 pl-10 pr-4"
                     min={0}
                     max={999}
                     onKeyUp={(e) => {setCurrentMaxUsia(e.target.value); setCurrentPage(1);}}
@@ -102,7 +102,7 @@ export function Home() {
                   <input
                     type="number"
                     placeholder="Gaji Minimum"
-                    className="border border-gray-300 rounded-md h-10 pl-10 pr-4 ml-[-13px]"
+                    className="border border-gray-300 rounded-md h-10 pl-10 pr-4"
                     min={0}
                     max={99999999999999}
                     onChange={(e) => {setCurrentMinGaji(e.target.value); setCurrentPage(1);}}
@@ -113,7 +113,7 @@ export function Home() {
                   <input
                     type="number"
                     placeholder="Gaji Maksimum"
-                    className="border border-gray-300 rounded-md h-10 pl-10 pr-4 ml-[-13px]"
+                    className="border border-gray-300 rounded-md h-10 pl-10 pr-4"
                     min={0}
                     max={99999999999999}
                     onChange={(e) => { setCurrentMaxUsia(e.target.value); setCurrentPage(1); }}
@@ -123,11 +123,9 @@ export function Home() {
               </td>
               <td className="text-center">
                 <div className="mt-3 flex items-center">
-                  <Button className="z-10">
-                    <FontAwesomeIcon icon={faBriefcase} />
-                  </Button>
                   <select
-                    className="border border-gray-300 rounded-md h-10 pl-2 pr-4 ml-[-13px] text-center"
+                    id="pendidikan"
+                    className="border border-gray-300 rounded-md h-10 pl-2 pr-4 text-center"
                     placeholder="Pendidikan Minimum"
                     onChange={(e) => {
                       setCurrentPendidikan(e.target.value);
@@ -140,6 +138,9 @@ export function Home() {
                     <option value="S1">S1</option>
                     <option value="S2">S2</option>
                   </select>
+                  <Button className="z-10">
+                    <FontAwesomeIcon icon={faBriefcase} />
+                  </Button>
 
                 </div>
               </td>
@@ -156,6 +157,15 @@ export function Home() {
                     setCurrentMinGaji("");
                     setCurrentPendidikan("");
                     setCurrentPage(1);
+
+                    // Mengosongkan nilai pada elemen input
+                    const inputElements = document.querySelectorAll('input');
+                    inputElements.forEach((input) => {
+                      input.value = "";
+                    });
+
+                    const inputPendidikan = document.getElementById('pendidikan');
+                    inputPendidikan.value = "";
                   }
                 }>
                   <FontAwesomeIcon icon={faX}/>
