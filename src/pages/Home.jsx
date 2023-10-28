@@ -16,6 +16,7 @@ export function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(9);
   const [jobs1, setJobs1] = useState([]);
+  const [matchedJobs, setMatchedJobs] = useState(0); 
   const [isLoading, setIsLoading] = useState(true); // Add a loading state
   useEffect(() => {
     // Send the "page" parameter as a query parameter
@@ -28,6 +29,7 @@ export function Home() {
       })
       .then((result) => {
         setJobs1(result.data.jobs);
+        setMatchedJobs(result.data.count);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -125,7 +127,7 @@ export function Home() {
           )}
               <div className="mx-auto max-w-screen-xl px-80 my-8 flex justify-center">
                 <Pagination
-                  totalPosts={jobs.length}
+                  totalPosts={matchedJobs}
                   postPerPage={postPerPage}
                   setCurrentPage={setCurrentPage}
                 />
