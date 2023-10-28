@@ -12,7 +12,6 @@ export default function Profile() {
     }
     const id = cookies.get("USER");
     const token = cookies.get("TOKEN");
-    const [user, setUser] = useState({});
     const [form, setForm] = useState({});
     //console.log(id)
     useEffect(() => {
@@ -20,7 +19,6 @@ export default function Profile() {
             try {
                 const response = await axios.get(`http://auth-server-sigma.vercel.app/users/profile/${id}`,
                 {headers: { Authorization: `Bearer ${token}` }});
-                setUser(response.data.user);
                 setForm(response.data.user);
             } catch (error) {
                 console.error("Error fetching user:", error);
