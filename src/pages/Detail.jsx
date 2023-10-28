@@ -1,16 +1,11 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  Card,
-  CardBody,
-  CardFooter,
-  Typography,
   Button,
   IconButton,
-  select,
 } from "@material-tailwind/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faUsers } from '@fortawesome/free-solid-svg-icons';
 import { jobs } from "../jobData";
 import { LikeButton } from "../components/LikeButton";
@@ -24,11 +19,19 @@ export function Detail() {
   // Find the job with the matching ID
   const selectedJob = jobs.find((job) => job.no === parseInt(id));
 
+  const formatRupiah = (number) => {
+    return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR"
+    }).format(number).replace(",00", "");
+};
+
   // Check if the job with the specified ID exists
   if (!selectedJob) {
     return <div>Job not found</div>;
   }
   
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const navigate = useNavigate();
 
 
@@ -61,7 +64,7 @@ export function Detail() {
         <p className="text-gray-500">{selectedJob.company}</p>
         <p className="text-gray-500">{selectedJob.location}</p>
         <p className="text-gray-500">{selectedJob.type}</p>
-        <p className="text-gray-500">{selectedJob.minSalary} - {selectedJob.maxSalary}</p>
+        <p className="text-gray-500">{formatRupiah(selectedJob.minSalary)} - {formatRupiah(selectedJob.maxSalary)}</p>
         <p className="mt-4">{selectedJob.description}</p>
       
         <br></br>
