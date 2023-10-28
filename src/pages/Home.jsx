@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { CardsDefault } from "../components/CardsDefault";
 import { jobs } from "../jobData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faX } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { CardList } from "../components/CardList";
@@ -110,6 +110,11 @@ export function Home() {
                     <option value="S2">S2</option>
                   </select>
                 </div>
+              </td>
+              <td className="text-center">
+                <Button className="border border-gray-300 rounded-md h-10 px-4 mt-3" color="red">
+                  <FontAwesomeIcon icon={faX}/>
+                </Button>
               </td>
             </tr>
           </table>
