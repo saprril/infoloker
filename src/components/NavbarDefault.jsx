@@ -106,6 +106,7 @@ export function NavbarDefault() {
                                 // Remove the TOKEN cookie and log the user out
                                 cookies.remove("TOKEN");
                                 setIsLogged(false);
+                                window.location.reload(); // Reload the page
                             }}
                         >
                             <span>Logout</span>

@@ -14,10 +14,12 @@ const cookies = new Cookies();
 export function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false); // Add a loading state
     const history = useNavigate(); // Access the history object
 
     const handleLogin = (e) => {
         e.preventDefault();
+        setIsLoading(true);
         const configuration = {
             method: "post",
             url: "https://auth-server-sigma.vercel.app/login",
@@ -30,10 +32,12 @@ export function Login() {
             .then((result) => {
                 cookies.set("TOKEN", result.data.token, { path: "/" });
                 //console.log(cookies.get("TOKEN"));
+                setIsLoading(false);
                 history("/");
                 window.location.reload(); // Reload the page
             })
             .catch((err) => {
+                console.error("Error fetching jobs:", err);
                 err = new Error();
             })
 
@@ -80,8 +84,9 @@ export function Login() {
                             className="mt-6"
                             fullWidth
                             onClick={handleLogin}
+                            disabled={isLoading} 
                         >
-                            Login
+                            {isLoading ? "Loading..." : "Login"}
                         </Button>
                         <Typography color="gray" className="mt-4 text-center font-normal">
                             Belum punya akun?{" "}
