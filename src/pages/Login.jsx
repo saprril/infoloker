@@ -32,6 +32,7 @@ export function Login() {
             .then((result) => {
                 cookies.set("TOKEN", result.data.token, { path: "/" });
                 cookies.set("USER", result.data._id, { path: "/" });
+                cookies.set("LIKED", result.data.likedJobs, { path: "/" });
                 //console.log(cookies.get("TOKEN"));
                 setIsLoading(false);
                 history("/");

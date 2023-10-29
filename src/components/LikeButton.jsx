@@ -3,9 +3,9 @@ import { IconButton } from "@material-tailwind/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
-export function LikeButton({likes}) {
+export function LikeButton({likes, isLiked}) {
     const [llikes, setLikes] = useState(likes); // State untuk melacak apakah tombol hati ditekan
-    const [liked, setLiked] = useState(false); // State untuk melacak jumlah "Likes"
+    const [liked, setLiked] = useState(isLiked); // State untuk melacak jumlah "Likes"
 
     // Fungsi untuk menangani ketika tombol hati ditekan
     const handleLikeClick = () => {

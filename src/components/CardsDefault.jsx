@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {
     Card,
     CardBody,
@@ -7,9 +7,12 @@ import {
     Button,
 } from "@material-tailwind/react";
 import { LikeButton } from "./LikeButton";
-
+import Cookies from "universal-cookie";
 // eslint-disable-next-line react/prop-types
+const cookies = new Cookies();
 export function CardsDefault({ id, title, company, location, maxSalary, likes, minSalary, minEdu, minUsia, maxUsia }) {
+    const liked = cookies.get("LIKED");
+    console.log(liked);
     const formatRupiah = (number) => {
         return new Intl.NumberFormat("id-ID", {
             style: "currency",
@@ -62,7 +65,7 @@ export function CardsDefault({ id, title, company, location, maxSalary, likes, m
                 </table>
             </CardBody>
             <CardFooter className="pt-0 flex justify-between">
-                <div><LikeButton likes={likes}></LikeButton></div>
+                <div><LikeButton likes={likes} isLiked={false}></LikeButton></div>
                 <a href={`/detail/${id}`} className="inline-block">
                     <Button size="sm" variant="text" className="flex items-center gap-2">
                         Detil

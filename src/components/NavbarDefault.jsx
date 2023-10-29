@@ -105,6 +105,8 @@ export function NavbarDefault() {
                             onClick={() => {
                                 // Remove the TOKEN cookie and log the user out
                                 cookies.remove("TOKEN");
+                                cookies.remove("USER");
+                                cookies.remove("LIKED");
                                 setIsLogged(false);
                                 window.location.reload(); // Reload the page
                             }}

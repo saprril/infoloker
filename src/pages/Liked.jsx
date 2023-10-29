@@ -37,6 +37,9 @@ export function Liked() {
     };
     fetchData();
   }, [currentPage]);
+  //const likedId = likedJobs.map((job) => job._id);
+  //cookies.set("LIKED", likedId, { path: "/" });
+  //console.log(cookies.get("LIKED"));
   //const lastPostIndex = currentPage * postPerPage;
   //const firstPostIndex = lastPostIndex - postPerPage;
   //const currentPosts = jobs.slice(firstPostIndex, lastPostIndex);
