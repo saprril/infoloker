@@ -6,12 +6,16 @@ import {
 } from "@material-tailwind/react";
 import { useState } from "react";
 import axios from "axios";
+
 export function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
+    const [isLoading, setIsLoading] = useState(false); // Add a loading state
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsLoading(true);
         const configuration = {
             method: "post",
             url: "https://auth-server-sigma.vercel.app/register",
@@ -23,10 +27,12 @@ export function Register() {
         };
         axios(configuration)
             .then((res) => {
-                console.log(res);
+                //console.log(res);
+                setIsLoading(false);
                 window.location.href = "/register/success";
             })
             .catch((err) => {
+                setIsLoading(false);
                 err = new Error();
             });
     }
@@ -80,8 +86,8 @@ export function Register() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
-                        <Button className="mt-6" fullWidth onClick={handleSubmit}>
-                            Daftar
+                        <Button className="mt-6" fullWidth onClick={handleSubmit} disabled={isLoading}>
+                            {isLoading ? "Loading..." : "Daftar"}
                         </Button>
                         <Typography color="gray" className="mt-4 text-center font-normal">
                             Sudah punya akun?{" "}
