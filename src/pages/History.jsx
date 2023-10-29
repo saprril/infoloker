@@ -7,9 +7,14 @@ import { CardsDefault } from "../components/CardsDefault";
 import { jobs } from '../jobData';
 import { Pagination } from "../components/Pagination"; // Import Pagination component
 import { CardList } from "../components/CardList";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 export const History = () => {
-
+    if (!cookies.get("TOKEN")) {
+        window.location.href = "/login";
+    }
+    
     const [showAdminSelection, setShowAdminSelection] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage, setPostPerPage] = useState(9);
