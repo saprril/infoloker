@@ -1,11 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import { CardsDefault } from "../components/CardsDefault";
-import { jobs } from "../jobData";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { CardList } from "../components/CardList";
 import { Pagination } from "../components/Pagination";
 import Cookies from "universal-cookie";
