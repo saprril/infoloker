@@ -1,4 +1,4 @@
-import { Card, Input, Checkbox, Option, Button, Typography, Select, Textarea } from "@material-tailwind/react";
+import { Card, Input, Option, Button, Typography, Select, Textarea } from "@material-tailwind/react";
 import { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 import axios from "axios";
@@ -31,6 +31,7 @@ export default function Profile() {
     const navigate = useNavigate();
 
     const handleNameChange = (e) => {
+        // eslint-disable-next-line no-unused-vars
         const { name, value } = e.target;
         //console.log([name]);
         setForm({

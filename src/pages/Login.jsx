@@ -5,6 +5,7 @@ import {
     Typography,
 } from "@material-tailwind/react";
 
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
@@ -15,10 +16,38 @@ export function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false); // Add a loading state
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+
+    const validateEmail = (email) => {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    };
+
+    const validatePassword = (password) => {
+        return password.length >= 8;
+    };
+
     const history = useNavigate(); // Access the history object
+
 
     const handleLogin = (e) => {
         e.preventDefault();
+
+        if (!validateEmail(email)) {
+            setEmailError("Email tidak valid");
+            return;
+        } else {
+            setEmailError("");
+        }
+
+        if (!validatePassword(password)) {
+            setPasswordError("Password harus memiliki minimal 8 karakter");
+            return;
+        } else {
+            setPasswordError("");
+        }
+
         setIsLoading(true);
         const configuration = {
             method: "post",
@@ -52,7 +81,7 @@ export function Login() {
                         Login
                     </Typography>
                     <Typography color="gray" className="mt-1 font-normal">
-                        Selamat Datang! Silakan masukkan email dan passsword untuk masuk.
+                        Selamat Datang! Silakan masukkan email dan password untuk masuk.
                     </Typography>
                     <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
                         <div className="mb-1 flex flex-col gap-6">
@@ -68,6 +97,9 @@ export function Login() {
                                 }}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
+                            <div className="mt-[-20px]">
+                                {emailError && <Typography color="red">{emailError}</Typography>}
+                            </div>
                             <Typography variant="h6" color="blue-gray" className="-mb-3">
                                 Password
                             </Typography>
@@ -81,6 +113,9 @@ export function Login() {
                                 }}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
+                            <div className="mt-[-20px]">
+                                {passwordError && <Typography color="red">{passwordError}</Typography>}
+                            </div>
                         </div>
                         <Button
                             className="mt-6"
