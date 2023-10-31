@@ -18,6 +18,7 @@ export function Login() {
     const [isLoading, setIsLoading] = useState(false); // Add a loading state
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const [loginError, setLoginError] = useState("");
 
     const validateEmail = (email) => {
         const re = /\S+@\S+\.\S+/;
@@ -68,8 +69,9 @@ export function Login() {
                 window.location.reload(); // Reload the page
             })
             .catch((err) => {
+                setIsLoading(false);
+                setLoginError("Email atau password salah");
                 console.error("Error fetching jobs:", err);
-                err = new Error();
             })
 
     }
@@ -115,6 +117,9 @@ export function Login() {
                             />
                             <div className="mt-[-20px]">
                                 {passwordError && <Typography color="red">{passwordError}</Typography>}
+                            </div>
+                            <div className="mt-[-20px]">
+                                {loginError && <Typography color="red">{loginError}</Typography>}
                             </div>
                         </div>
                         <Button
