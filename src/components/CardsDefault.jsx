@@ -10,9 +10,22 @@ import { LikeButton } from "./LikeButton";
 import Cookies from "universal-cookie";
 // eslint-disable-next-line react/prop-types
 const cookies = new Cookies();
+// eslint-disable-next-line react/prop-types
 export function CardsDefault({ id, title, company, location, maxSalary, likes, minSalary, minEdu, minUsia, maxUsia }) {
     const liked = cookies.get("LIKED") || [];
     const isInLiked = liked.includes(id);
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const token = cookies.get("TOKEN");
+        const id = cookies.get("USER");
+
+        if (token && id) {
+            setIsUserLoggedIn(true);
+        } else {
+            setIsUserLoggedIn(false);
+        }
+    }, []);
     //console.log(liked);
     const formatRupiah = (number) => {
         return new Intl.NumberFormat("id-ID", {
@@ -66,7 +79,7 @@ export function CardsDefault({ id, title, company, location, maxSalary, likes, m
                 </table>
             </CardBody>
             <CardFooter className="pt-0 flex justify-between">
-                <div><LikeButton likes={likes} isLiked={isInLiked}></LikeButton></div>
+                <div><LikeButton likes={likes} isLiked={isInLiked} disabled={!isUserLoggedIn}></LikeButton></div>
                 <a href={`/detail/${id}`} className="inline-block">
                     <Button size="sm" variant="text" className="flex items-center gap-2">
                         Detil

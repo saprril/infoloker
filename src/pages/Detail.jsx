@@ -12,6 +12,10 @@ import { LikeButton } from "../components/LikeButton";
 import axios from "axios";
 import { useEffect } from "react";
 import { Spinner } from "@material-tailwind/react";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
+
 export function Detail() {
   // Get the job ID parameter from the URL
   const { _id } = useParams();
@@ -19,9 +23,10 @@ export function Detail() {
   const [isLoading, setIsLoading] = useState(true); // Add a loading state
   // Replace this with your data (you can fetch it from an API or use state)
 
-  // Find the job with the matching ID
+  const token = cookies.get("TOKEN");
+
+  // Fetch the job with the matching ID when the component mounts
   useEffect(() => {
-    // Fetch the job with the matching ID when the component mounts
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://auth-server-sigma.vercel.app/jobs/detail/${_id}`);
@@ -33,7 +38,7 @@ export function Detail() {
 
     fetchData();
     setIsLoading(false);
-  }, [_id, isLoading]);
+  }, [_id, isLoading, token]);
 
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -117,14 +122,14 @@ export function Detail() {
         </div>
         <br></br>
 
-        <LikeButton likes={selectedJob.likes}></LikeButton>
+        <LikeButton likes={selectedJob.likes} disabled={!token}></LikeButton>
         <IconButton color="indigo" className="ml-6">
           <FontAwesomeIcon icon={faUsers} />
         </IconButton>
         <p className="text-sm text-gray-500 inline-block ml-3" >{selectedJob.jumlahPelamar} Pelamar</p>
       </div>
       <div className="text-center mt-10">
-        <Button className="px-20" color="red">Apply</Button>
+        <Button className="px-20" color="red" disabled={!token}>Apply</Button>
       </div>
     </div>
   );
