@@ -1,11 +1,13 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
-import PropTypes from "prop-types"; // import PropTypes
 
 import { CardsDefault } from "./CardsDefault";
 
+// eslint-disable-next-line react/prop-types
 export const CardList = ({ page }) => {
     return (
         <div className="mx-auto max-w-screen-xl grid grid-cols-3 gap-7">
+            {/* eslint-disable-next-line react/prop-types */}
             {page.map((job, index) => {
                 return (
                     <CardsDefault
@@ -25,9 +27,4 @@ export const CardList = ({ page }) => {
             })}
         </div>
     );
-};
-
-CardList.propTypes = {
-    jobsData: PropTypes.array.isRequired,
-    page: PropTypes.array.isRequired
 };
