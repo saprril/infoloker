@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Button,
@@ -7,25 +7,20 @@ import {
 } from "@material-tailwind/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers } from '@fortawesome/free-solid-svg-icons';
-//import { jobs } from "../jobData";
 import { LikeButton } from "../components/LikeButton";
 import axios from "axios";
-import { useEffect } from "react";
 import { Spinner } from "@material-tailwind/react";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
 export function Detail() {
-  // Get the job ID parameter from the URL
   const { _id } = useParams();
   const [selectedJob, setSelectedJob] = useState();
-  const [isLoading, setIsLoading] = useState(true); // Add a loading state
-  // Replace this with your data (you can fetch it from an API or use state)
-
+  const [isLoading, setIsLoading] = useState(true);
   const token = cookies.get("TOKEN");
+  const [liked, setLiked] = useState(cookies.get("LIKED") || []);
 
-  // Fetch the job with the matching ID when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -47,12 +42,23 @@ export function Detail() {
     }).format(number).replace(",00", "");
   };
 
-  // Check if the job with the specified ID exists
-  console.log(isLoading);
   const navigate = useNavigate();
   if (!selectedJob) {
       return <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900"> <Spinner color="blue" size="large" /> </div>;
   }
+
+  const handleLike = async () => {
+    if (token) {
+        const userId = cookies.get("USER");
+        const response = await axios.post(`http://auth-server-sigma.vercel.app/users/liked/${_id}`, {
+            userId: userId,
+        });
+        setLiked([...liked, _id]);
+        console.log(response.data);
+    } else {
+        console.log("User not logged in");
+    }
+  };
   //console.log(selectedJob);
   // eslint-disable-next-line react-hooks/rules-of-hooks
 
@@ -122,7 +128,7 @@ export function Detail() {
         </div>
         <br></br>
 
-        <LikeButton likes={selectedJob.likes} disabled={!token}></LikeButton>
+        <LikeButton jobId={_id} likes={selectedJob.likes} isLiked={liked.includes(_id)} disabled={!token} onClick={handleLike}></LikeButton>
         <IconButton color="indigo" className="ml-6">
           <FontAwesomeIcon icon={faUsers} />
         </IconButton>

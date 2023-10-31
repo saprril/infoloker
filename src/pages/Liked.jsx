@@ -26,9 +26,7 @@ export function Liked() {
     setIsLoading(true);
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://auth-server-sigma.vercel.app/users/liked/${id}`,
-          { headers: { Authorization: `Bearer ${token}`, } ,
-            params: {currentPage}});
+        const response = await axios.get(`http://auth-server-sigma.vercel.app/users/liked/${id}`)
         setLikedJobs(response.data.jobs);
         setIsLoading(false);
       } catch (error) {
@@ -36,7 +34,7 @@ export function Liked() {
       }
     };
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, id, token]);
   //const likedId = likedJobs.map((job) => job._id);
   //cookies.set("LIKED", likedId, { path: "/" });
   //console.log(cookies.get("LIKED"));
@@ -47,28 +45,33 @@ export function Liked() {
   return (
     <>
       <div className="mx-auto max-w-screen-xl">
-        
-
         <div>
           {isLoading ? (
             <div className="mx-auto flex items-center justify-center">
-              <Spinner />
-            </div> // Check loading state
+              <Spinner color="blue" size="large" />
+            </div>
           ) : (
             <>
-              <CardList page={likedJobs} />
+              {likedJobs.length > 0 ? (
+                <>
+                  <CardList page={likedJobs} />
+                  <div className="mx-auto max-w-screen-xl px-80 my-8 flex justify-center">
+                    <Pagination
+                      totalPosts={likedJobs.length}
+                      postPerPage={9}
+                      setCurrentPage={setCurrentPage}
+                      currentPage={currentPage}
+                    />
+                  </div>
+                </>
+              ) : (
+                <p>Tidak ada pekerjaan yang disukai</p>
+              )}
             </>
           )}
-          <div className="mx-auto max-w-screen-xl px-80 my-8 flex justify-center">
-            <Pagination
-              totalPosts={likedJobs.length}
-              postPerPage={9}
-              setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-            />
-          </div>
         </div>
       </div>
     </>
   );
 }
+

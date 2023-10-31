@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
     Card,
     CardBody,
@@ -8,11 +8,13 @@ import {
 } from "@material-tailwind/react";
 import { LikeButton } from "./LikeButton";
 import Cookies from "universal-cookie";
-// eslint-disable-next-line react/prop-types
+import axios from "axios";
+
 const cookies = new Cookies();
+
 // eslint-disable-next-line react/prop-types
 export function CardsDefault({ id, title, company, location, maxSalary, likes, minSalary, minEdu, minUsia, maxUsia }) {
-    const liked = cookies.get("LIKED") || [];
+    const [liked, setLiked] = useState(cookies.get("LIKED") || []);
     const isInLiked = liked.includes(id);
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
@@ -26,7 +28,27 @@ export function CardsDefault({ id, title, company, location, maxSalary, likes, m
             setIsUserLoggedIn(false);
         }
     }, []);
-    //console.log(liked);
+
+    const handleLike = async () => {
+        if (isUserLoggedIn) {
+            const userId = cookies.get("USER");
+            try {
+                const response = await axios.post(`http://auth-server-sigma.vercel.app/users/liked/${userId}`, {
+                    jobId: id
+                });
+                // Update the liked state
+                setLiked([...liked, id]);
+                // Handle the response if needed
+                console.log(response.data);
+            } catch (error) {
+                console.error("Error liking the job:", error);
+            }
+        } else {
+            console.log("User not logged in");
+        }
+    };
+    
+
     const formatRupiah = (number) => {
         return new Intl.NumberFormat("id-ID", {
             style: "currency",
@@ -79,7 +101,7 @@ export function CardsDefault({ id, title, company, location, maxSalary, likes, m
                 </table>
             </CardBody>
             <CardFooter className="pt-0 flex justify-between">
-                <div><LikeButton likes={likes} isLiked={isInLiked} disabled={!isUserLoggedIn}></LikeButton></div>
+                <div><LikeButton jobId={id} likes={likes} isLiked={isInLiked} disabled={!isUserLoggedIn} onClick={handleLike}></LikeButton></div>
                 <a href={`/detail/${id}`} className="inline-block">
                     <Button size="sm" variant="text" className="flex items-center gap-2">
                         Detil
