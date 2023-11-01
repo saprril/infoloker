@@ -1,11 +1,7 @@
 import {
     Card,
-    Input,
-    Button,
     Typography,
 } from "@material-tailwind/react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 export function RegisterSuccess() {
     return (
         <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
