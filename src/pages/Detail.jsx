@@ -35,6 +35,26 @@ export function Detail() {
     setIsLoading(false);
   }, [_id, isLoading, token]);
 
+  const handleApply = async () => {
+    if (token) {
+      console.log("test");
+      try {
+        await axios.patch(
+          `http://auth-server-sigma.vercel.app/jobs/detail/${_id}/apply`,
+          { "id": cookies.get("USER") },
+          {
+            headers: {
+              Authorization: `Bearer ${cookies.get("TOKEN")}`,
+            }
+          }
+        );
+      } catch (error) {
+        console.error("Gagal melamar lowongan", error);
+      }
+    } else {
+      console.log("User not logged in");
+    }
+    };
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -46,19 +66,6 @@ export function Detail() {
   if (!selectedJob) {
       return <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900"> <Spinner color="blue" size="large" /> </div>;
   }
-
-  const handleLike = async () => {
-    if (token) {
-        const userId = cookies.get("USER");
-        const response = await axios.post(`http://auth-server-sigma.vercel.app/users/liked/${_id}`, {
-            userId: userId,
-        });
-        setLiked([...liked, _id]);
-        console.log(response.data);
-    } else {
-        console.log("User not logged in");
-    }
-  };
   //console.log(selectedJob);
   // eslint-disable-next-line react-hooks/rules-of-hooks
 
@@ -128,14 +135,14 @@ export function Detail() {
         </div>
         <br></br>
 
-        <LikeButton jobId={_id} likes={selectedJob.likes} isLiked={liked.includes(_id)} disabled={!token} onClick={handleLike}></LikeButton>
+        <LikeButton jobId={_id} likes={selectedJob.likes} isLiked={liked.includes(_id)} disabled={!token}></LikeButton>
         <IconButton color="indigo" className="ml-6">
           <FontAwesomeIcon icon={faUsers} />
         </IconButton>
         <p className="text-sm text-gray-500 inline-block ml-3" >{selectedJob.jumlahPelamar} Pelamar</p>
       </div>
       <div className="text-center mt-10">
-        <Button className="px-20" color="red" disabled={!token}>Apply</Button>
+        <Button className="px-20" color="red" disabled={!token||isLoading} onClick={handleApply}>Apply</Button>
       </div>
     </div>
   );

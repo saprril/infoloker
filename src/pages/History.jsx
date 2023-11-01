@@ -11,6 +11,7 @@ export function History() {
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
     const [appliedJobs, setAppliedJobs] = useState([]);
+    const [count, setCount] = useState(0); // State untuk jumlah pekerjaan yang ditemukan
     const [selectedClassification, setSelectedClassification] = useState(1); // State untuk klasifikasi terpilih
 
     const token = cookies.get("TOKEN");
@@ -26,11 +27,11 @@ export function History() {
             try {
                 let classification; // Variabel untuk menentukan klasifikasi yang akan diambil dari API
                 if (selectedClassification === 1) {
-                  classification = "Menunggu Seleksi";
+                  classification = "Open";
                 } else if (selectedClassification === 2) {
-                  classification = "Seleksi Administrasi";
+                  classification = "Administrasi";
                 } else if (selectedClassification === 3) {
-                  classification = "Seleksi Wawancara";
+                  classification = "Interview";
                 }
         
                 // Ganti endpoint API sesuai dengan klasifikasi yang dipilih
@@ -41,15 +42,17 @@ export function History() {
                       Authorization: `Bearer ${token}`,
                     },
                     params: {
-                      currentPage,
-                      classification, // Tambahkan klasifikasi ke parameter
+                      page: currentPage,
+                      status: classification, // Tambahkan klasifikasi ke parameter
                     },
                   }
                 );
         
                 setAppliedJobs(response.data.jobs);
+                setCount(response.data.count);
                 setIsLoading(false);
               } catch (error) {
+                setIsLoading(false);
                 console.error("Error fetching user history:", error);
               }
         };
@@ -94,7 +97,7 @@ export function History() {
             )}
             <div className="mx-auto max-w-screen-xl px-80 my-8 flex justify-center">
                 <Pagination
-                totalPosts={appliedJobs.length}
+                totalPosts={count}
                 postPerPage={9} // Sesuaikan dengan jumlah pekerjaan per halaman
                 setCurrentPage={setCurrentPage}
                 currentPage={currentPage}
