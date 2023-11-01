@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import { CardList } from "../components/CardList";
 import { Pagination } from "../components/Pagination";
@@ -57,6 +58,7 @@ export function History() {
               }
         };
         fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage, selectedClassification]); // Tambahkan selectedClassification ke dependensi useEffect
 
     return (

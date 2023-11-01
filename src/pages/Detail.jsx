@@ -19,6 +19,10 @@ export function Detail() {
   const [selectedJob, setSelectedJob] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const token = cookies.get("TOKEN");
+  // eslint-disable-next-line no-unused-vars
+  const [userEducation, setUserEducation] = useState("");
+  
+  // eslint-disable-next-line no-unused-vars
   const [liked, setLiked] = useState(cookies.get("LIKED") || []);
 
   useEffect(() => {
@@ -31,30 +35,81 @@ export function Detail() {
       }
     };
 
+    const fetchUserData = async () => {
+      try {
+        const userResponse = await axios.get(
+          `https://auth-server-sigma.vercel.app/users/profile/${cookies.get("USER")}`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookies.get("TOKEN")}`,
+            },
+          }
+        );
+
+        setUserEducation(userResponse.data.user.education);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    if (token) {
+      fetchUserData();
+    }
+
     fetchData();
     setIsLoading(false);
   }, [_id, isLoading, token]);
 
+
+  
   const handleApply = async () => {
-    if (token) {
-      console.log("test");
+    if (token && userEducation) {
       try {
-        await axios.patch(
-          `http://auth-server-sigma.vercel.app/jobs/detail/${_id}/apply`,
-          { "id": cookies.get("USER") },
+        const userResponse = await axios.get(
+          `https://auth-server-sigma.vercel.app/users/profile/${cookies.get("USER")}`,
           {
             headers: {
               Authorization: `Bearer ${cookies.get("TOKEN")}`,
-            }
+            },
           }
         );
+  
+        setUserEducation(userResponse.data.user.education);
+  
+        if (userEducation === "SMA") {
+          return console.log("Pendidikan Anda terlalu rendah");
+        } else if (userEducation === "SMK" && selectedJob.minEdu !== "SMA") {
+          return console.log("Pendidikan Anda terlalu rendah");
+        } else if (userEducation === "D3" && selectedJob.minEdu !== "SMA" && selectedJob.minEdu !== "SMK") {
+          return console.log("Pendidikan Anda terlalu rendah");
+        } else if (userEducation === "S1" && selectedJob.minEdu === "S2") {
+          return console.log("Pendidikan Anda terlalu rendah");
+        }
+  
+        await axios.patch(
+          `https://auth-server-sigma.vercel.app/jobs/detail/${_id}/apply`,
+          { id: cookies.get("USER") },
+          {
+            headers: {
+              Authorization: `Bearer ${cookies.get("TOKEN")}`,
+            },
+          }
+        );
+        console.log("Anda telah berhasil melamar");
+
       } catch (error) {
         console.error("Gagal melamar lowongan", error);
+
       }
+    } else if (token && !userEducation) {
+      console.log("Silakan set pendidikan Anda terlebih dahulu sebelum melamar pekerjaan.");
+
     } else {
-      console.log("User not logged in");
+      console.log("Pengguna belum login");
+
     }
-    };
+  };
+
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -142,8 +197,32 @@ export function Detail() {
         <p className="text-sm text-gray-500 inline-block ml-3" >{selectedJob.jumlahPelamar} Pelamar</p>
       </div>
       <div className="text-center mt-10">
-        <Button className="px-20" color="red" disabled={!token||isLoading} onClick={handleApply}>Apply</Button>
-      </div>
+    <Button
+      className="px-20"
+      color="red"
+      disabled={!token}
+      onClick={handleApply}
+    >
+      Apply
+    </Button>
+    <div className="mt-5">
+    {isLoading && <p className="text-gray-500 italic">Loading...</p>}
+    {!token && <p className="text-red-500 italic">Silakan login terlebih dahulu sebelum melamar pekerjaan.</p>}
+    {!userEducation && token && <p className="text-red-500 text-sm italic">Silakan atur pendidikan Anda terlebih dahulu sebelum melamar pekerjaan.</p>}
+    {(userEducation === "SMA" && selectedJob.minEdu !== "SMA") && (
+      <p className="text-red-500 italic">Pendidikan Anda terlalu rendah untuk melamar pekerjaan ini.</p>
+    )}
+    {(userEducation === "SMK" && selectedJob.minEdu !== "SMA" && selectedJob.minEdu !== "SMK") && (
+      <p className="text-red-500 italic">Pendidikan Anda terlalu rendah untuk melamar pekerjaan ini.</p>
+    )}
+    {(userEducation === "D3" && selectedJob.minEdu !== "SMA" && selectedJob.minEdu !== "SMK" && selectedJob.minEdu !== "D3") && (
+      <p className="text-red-500 italic">Pendidikan Anda terlalu rendah untuk melamar pekerjaan ini.</p>
+    )}
+    {(userEducation === "S1" && selectedJob.minEdu === "S2") && (
+      <p className="text-red-500 italic">Pendidikan Anda terlalu rendah untuk melamar pekerjaan ini.</p>
+    )}
+    </div>
+  </div>
     </div>
   );
 }

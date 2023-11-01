@@ -15,8 +15,21 @@ export default function Profile() {
     const token = cookies.get("TOKEN");
     const [form, setForm] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
     //console.log(id)
     //console.log(token);
+
+   useEffect(() => {
+        if (cookies.get("SAVED_STATUS")) {
+            setIsSaved(true);
+            cookies.remove("SAVED_STATUS");
+            // Hapus pesan setelah beberapa waktu
+            setTimeout(() => {
+                setIsSaved(false);
+            }, 3000); // Hapus pesan setelah 5 detik
+        }
+    }, []);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -43,15 +56,12 @@ export default function Profile() {
                     headers: { Authorization: `Bearer ${token}` },
                 }
             );
-            // Handle success, e.g., show a success message or navigate back
-            setIsSubmitted(false);
+            cookies.set("SAVED_STATUS", true, { path: "/" });
             navigate(0); // Navigate back to the previous page
         } catch (error) {
             console.error("Error updating user:", error);
-            // Handle the error, e.g., display an error message
         }
-
-    }
+    };
     const handleNameChange = (e) => {
         // eslint-disable-next-line no-unused-vars
         const { name, value } = e.target;
@@ -101,18 +111,29 @@ export default function Profile() {
             city: value,
         });
     };
-    const handleIdNumberChange = (e) => {   
-        const { value } = e.target;
+    // const handleIdNumberChange = (e) => {   
+    //     const { value } = e.target;
 
-        setForm({
-            ...form,
-            idNumber: value,
-        });
-    };
+    //     setForm({
+    //         ...form,
+    //         idNumber: value,
+    //     });
+    // };
     const handleEducationChange = (e) => {
         setForm({
             ...form,
             education: e,
+        });
+    };
+    const handleIdNumberChange = (e) => {
+        const { value } = e.target;
+        // Hanya menerima angka
+        const cleanValue = value.replace(/\D/g, '');
+        // Batasi panjang maksimal menjadi 16 digit
+        const truncatedValue = cleanValue.slice(0, 16);
+        setForm({
+            ...form,
+            idNumber: truncatedValue,
         });
     };
 
@@ -142,16 +163,16 @@ export default function Profile() {
             <div className="mx-auto max-w-xl px-6 py-12 bg-white border-0 shadow-lg sm:rounded-3xl">
             <Card color="white" className="mx-auto" shadow={false}>
                 <Typography variant="h4" color="blue-gray">
-                    Profile
+                    Profil Anda
                 </Typography>
                 <form className="mt-8 mb-2 w-96 max-w-screen-lg sm:w-96">
                     <div className="mb-1 flex flex-col gap-6">
                         <Typography variant="h6" color="blue-gray" className="-mb-3">
-                            Name
+                            Nama
                         </Typography>
                         <Input
                             size="lg"
-                            placeholder="Your Name"
+                            placeholder="Nama"
                             className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                             labelProps={{
                                 className: "before:content-none after:content-none",
@@ -167,7 +188,7 @@ export default function Profile() {
                         <Input
                             disabled
                             size="lg"
-                            placeholder="Your Email"
+                            placeholder="Email"
                             className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                             labelProps={{
                                 className: "before:content-none after:content-none",
@@ -177,7 +198,7 @@ export default function Profile() {
                         />
 
                         <Typography variant="h6" color="blue-gray" className="-mb-3">
-                            Gender
+                            Jenis Kelamin
                         </Typography>
                         <Select label="Select Version" size="lg" name="gender" value={form.gender} onChange={handleGenderChange}>
                             <Option value=""> -- Pilih Jenis Kelamin --</Option>
@@ -186,11 +207,11 @@ export default function Profile() {
                         </Select>
 
                         <Typography variant="h6" color="blue-gray" className="-mb-3">
-                            Place of Birth
+                            Tempat Lahir
                         </Typography>
                         <Input
                             size="lg"
-                            placeholder="Place of Birth"
+                            placeholder="Tempat Lahir"
                             className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                             labelProps={{
                                 className: "before:content-none after:content-none",
@@ -201,7 +222,7 @@ export default function Profile() {
                         />
 
                         <Typography variant="h6" color="blue-gray" className="-mb-3">
-                            Birthday
+                            Tanggal Lahir
                         </Typography>
                         <Input
                             type="date"
@@ -213,11 +234,11 @@ export default function Profile() {
                         />
 
                         <Typography variant="h6" color="blue-gray" className="-mb-3">
-                            Address
+                            Alamat
                         </Typography>
                         <Textarea
                             size="lg"
-                            placeholder="Address"
+                            placeholder="Alamat"
                             className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                             labelProps={{
                                 className: "before:content-none after:content-none",
@@ -228,11 +249,11 @@ export default function Profile() {
                         />
 
                         <Typography variant="h6" color="blue-gray" className="-mb-3">
-                            City
+                            Kota
                         </Typography>
                         <Input
                             size="lg"
-                            placeholder="City"
+                            placeholder="Kota"
                             className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                             labelProps={{
                                 className: "before:content-none after:content-none",
@@ -243,22 +264,22 @@ export default function Profile() {
                         />
 
                         <Typography variant="h6" color="blue-gray" className="-mb-3">
-                            ID Number
+                            NIK
                         </Typography>
-                        <Input
-                            type="text"
-                            size="lg"
-                            placeholder="ID Number"
-                            className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                            labelProps={{
-                                className: "before:content-none after:content-none",
-                            }}
-                            onChange={handleIdNumberChange}
-                            value={form.idNumber}
-                        />
+                            <Input
+                                type="text"
+                                size="lg"
+                                placeholder="NIK"
+                                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                                labelProps={{
+                                    className: "before:content-none after:content-none",
+                                }}
+                                onChange={handleIdNumberChange}
+                                value={form.idNumber}
+                            />
 
                         <Typography variant="h6" color="blue-gray" className="-mb-3">
-                            Education Level
+                            Pendidikan
                         </Typography>
                         <Select label="Select Version" size="lg" name="education" value={form.education} onChange={handleEducationChange}>
                             <Option value=""> -- Pilih Tingkat Pendidikan --</Option>
@@ -270,8 +291,17 @@ export default function Profile() {
                         </Select>
                     </div>
                     <Button className="mt-6" fullWidth onClick={handleSubmit} disabled={isSubmitted}>
-                        Save
+                        Simpan
                     </Button>
+                    {isSubmitted && (
+                    <Typography variant="body2"  className="mt-2">
+                        Sedang menyimpan profil Anda...
+                    </Typography>)}
+                    {isSaved && (
+                                <Typography variant="body2" color="green" className="mt-2">
+                                    Profil Anda telah berhasil tersimpan.
+                                </Typography>
+                            )}
                 </form>
             </Card>
         </div>

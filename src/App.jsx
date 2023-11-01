@@ -1,4 +1,6 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
+// eslint-disable-next-line no-unused-vars
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 import { NavbarDefault } from "./components/NavbarDefault";
 import { Register } from "./pages/Register";

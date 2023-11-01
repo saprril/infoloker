@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { CardsDefault } from "../components/CardsDefault";
-import { jobs } from "../jobData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
@@ -135,6 +133,7 @@ export function Home() {
                     <option value="">-- Pendidikan Minimum --</option>
                     <option value="SMA">SMA</option>
                     <option value="SMK">SMK</option>
+                    <option value="D3">D3</option>
                     <option value="S1">S1</option>
                     <option value="S2">S2</option>
                   </select>
