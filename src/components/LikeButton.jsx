@@ -24,10 +24,13 @@ export function LikeButton({ jobId, likes, isLiked, disabled }) {
 
     const patchLike = async () => {
         disabled = true;
-        console.log(cookies.get("USER"), "USER");
-        console.log(jobId, "JOBID");
-        console.log(likedlist, "LIKEDLIST");
-        console.log(cookies.get("TOKEN"), "TOKEN");
+        //console.log(cookies.get("USER"), "USER");
+        //console.log(jobId, "JOBID");
+        //console.log(likedlist, "LIKEDLIST");
+        //console.log(cookies.get("TOKEN"), "TOKEN");
+        //likedlist.push(jobId);
+        cookies.set("LIKED", [...cookies.get("LIKED"), jobId], { path: "/" });
+        console.log(cookies.get("LIKED"), 'LIKED');
         try {
             await axios.patch(
                 `http://auth-server-sigma.vercel.app/jobs/detail/${jobId}/like`,
@@ -39,8 +42,6 @@ export function LikeButton({ jobId, likes, isLiked, disabled }) {
                 }
             ).then((result) => {
                 console.log(result);
-                likedlist.push(jobId);
-                cookies.set("LIKED", likedlist, { path: "/" });
             }). catch((error) => {
                 console.log(error);
             });
@@ -52,10 +53,12 @@ export function LikeButton({ jobId, likes, isLiked, disabled }) {
 
     const patchUnLike = async () => {
         disabled = true;
-        console.log(cookies.get("USER"), "USER");
-        console.log(jobId, "JOBID");
-        console.log(likedlist, "LIKEDLIST");
+        //console.log(cookies.get("USER"), "USER");
+        //console.log(jobId, "JOBID");
+        //console.log(likedlist, "LIKEDLIST");
 
+        likedlist.splice(likedlist.indexOf(jobId), 1);
+        cookies.set("LIKED", likedlist, { path: "/" });
         try {
             await axios.patch(
                 `http://auth-server-sigma.vercel.app/jobs/detail/${jobId}/unlike`,
@@ -66,8 +69,6 @@ export function LikeButton({ jobId, likes, isLiked, disabled }) {
                     }
                 }
             );
-            likedlist.splice(likedlist.indexOf(jobId), 1);
-            cookies.set("LIKED", likedlist, { path: "/" });
         } catch (error) {
             console.error("Gagal menyukai lowongan", error);
         }
