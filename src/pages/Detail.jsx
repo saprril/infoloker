@@ -200,7 +200,7 @@ export function Detail() {
     <Button
       className="px-20"
       color="red"
-      disabled={!token}
+      disabled={!token || userEducation}
       onClick={handleApply}
     >
       Apply
