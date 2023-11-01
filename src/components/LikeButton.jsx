@@ -16,7 +16,7 @@ export function LikeButton({ jobId, likes, isLiked, disabled }) {
     useEffect(() => {
         cookies.set("LIKED", liked ? [...cookies.get("LIKED"), jobId] : cookies.get("LIKED"), { path: "/" });
         if (liked) {
-            postLikeToDatabase();
+            //postLikeToDatabase();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [liked]);

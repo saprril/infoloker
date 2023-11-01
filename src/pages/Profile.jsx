@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { set } from "../../../server/app";
 
 
 const cookies = new Cookies();
@@ -13,11 +14,13 @@ export default function Profile() {
     const id = cookies.get("USER");
     const token = cookies.get("TOKEN");
     const [form, setForm] = useState({});
+    const [isSubmitted, setIsSubmitted] = useState(false);
     //console.log(id)
+    //console.log(token);
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://auth-server-sigma.vercel.app/users/profile/${id}`,
+                const response = await axios.get(`https://auth-server-sigma.vercel.app/users/profile/${id}`,
                 {headers: { Authorization: `Bearer ${token}` }});
                 setForm(response.data.user);
             } catch (error) {
@@ -27,9 +30,28 @@ export default function Profile() {
         fetchData();
     },
     [id, token]);
-    //console.log(user);
     const navigate = useNavigate();
+    const handleSubmit = async (e) => {
+        setIsSubmitted(true);
+        console.log('   form==', form);
+        e.preventDefault();
+        try {
+            await axios.patch(
+                `http://auth-server-sigma.vercel.app/users/profile/${id}`,
+                form,
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+            // Handle success, e.g., show a success message or navigate back
+            setIsSubmitted(false);
+            navigate(-1); // Navigate back to the previous page
+        } catch (error) {
+            console.error("Error updating user:", error);
+            // Handle the error, e.g., display an error message
+        }
 
+    }
     const handleNameChange = (e) => {
         // eslint-disable-next-line no-unused-vars
         const { name, value } = e.target;
@@ -95,7 +117,7 @@ export default function Profile() {
     };
 
     //console.log(form);
-    console.log("Form", form);
+    //console.log("Form==", form);
     return (
         <div className="flex flex-col items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
         <a className="mb-5">
@@ -247,7 +269,7 @@ export default function Profile() {
                             <Option value="S2">S2</Option>
                         </Select>
                     </div>
-                    <Button className="mt-6" fullWidth>
+                    <Button className="mt-6" fullWidth onClick={handleSubmit} disabled={isSubmitted}>
                         Save
                     </Button>
                 </form>

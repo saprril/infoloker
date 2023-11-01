@@ -26,7 +26,8 @@ export function Liked() {
     setIsLoading(true);
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://auth-server-sigma.vercel.app/users/liked/${id}`)
+        const response = await axios.get(`http://auth-server-sigma.vercel.app/users/liked/${id}`,
+        { headers: { Authorization: `Bearer ${token}` } })
         setLikedJobs(response.data.jobs);
         setIsLoading(false);
       } catch (error) {
