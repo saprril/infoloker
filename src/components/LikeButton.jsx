@@ -39,6 +39,8 @@ export function LikeButton({ jobId, likes, isLiked, disabled }) {
                 }
             ).then((result) => {
                 console.log(result);
+                likedlist.push(jobId);
+                cookies.set("LIKED", likedlist, { path: "/" });
             }). catch((error) => {
                 console.log(error);
             });
@@ -64,6 +66,8 @@ export function LikeButton({ jobId, likes, isLiked, disabled }) {
                     }
                 }
             );
+            likedlist.splice(likedlist.indexOf(jobId), 1);
+            cookies.set("LIKED", likedlist, { path: "/" });
         } catch (error) {
             console.error("Gagal menyukai lowongan", error);
         }
