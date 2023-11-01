@@ -66,7 +66,7 @@ export function Liked() {
                   </div>
                 </>
               ) : (
-                <p>Tidak ada pekerjaan yang disukai</p>
+                <p className="mt-10 text-center">Tidak ada pekerjaan yang disukai</p>
               )}
             </>
           )}
