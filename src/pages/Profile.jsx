@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { set } from "../../../server/app";
+
 
 
 const cookies = new Cookies();
@@ -45,7 +45,7 @@ export default function Profile() {
             );
             // Handle success, e.g., show a success message or navigate back
             setIsSubmitted(false);
-            navigate(-1); // Navigate back to the previous page
+            navigate(0); // Navigate back to the previous page
         } catch (error) {
             console.error("Error updating user:", error);
             // Handle the error, e.g., display an error message
