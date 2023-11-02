@@ -25,6 +25,7 @@ export function Detail() {
   // eslint-disable-next-line no-unused-vars
   const [liked, setLiked] = useState(cookies.get("LIKED") || []);
   const [successMessage, setSuccessMessage] = useState(false);
+  const [appliedMessage, setAppliedMesaage] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,6 +101,7 @@ export function Detail() {
 
       } catch (error) {
         console.error("Gagal melamar lowongan", error);
+        setAppliedMesaage(true);
 
       }
     } else if (token && !userEducation) {
@@ -225,6 +227,7 @@ export function Detail() {
             <p className="text-red-500">Pendidikan Anda tidak sesuai untuk melamar pekerjaan ini.</p>
           )}
           {successMessage && <p className="text-green-500">Anda telah berhasil melamar pekerjaan ini.</p>}
+          {appliedMessage && <p className="text-red-500">Anda sudah melamar pekerjaan ini sebelumnya.</p>}
         </div>
       </div>
     </div>
