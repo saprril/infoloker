@@ -24,6 +24,8 @@ export function Detail() {
   
   // eslint-disable-next-line no-unused-vars
   const [liked, setLiked] = useState(cookies.get("LIKED") || []);
+  const [successMessage, setSuccessMessage] = useState(false);
+  const [appliedMessage, setAppliedMesaage] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,15 +78,15 @@ export function Detail() {
   
         setUserEducation(userResponse.data.user.education);
   
-        if (userEducation === "SMA") {
-          return console.log("Pendidikan Anda terlalu rendah");
-        } else if (userEducation === "SMK" && selectedJob.minEdu !== "SMA") {
-          return console.log("Pendidikan Anda terlalu rendah");
-        } else if (userEducation === "D3" && selectedJob.minEdu !== "SMA" && selectedJob.minEdu !== "SMK") {
-          return console.log("Pendidikan Anda terlalu rendah");
-        } else if (userEducation === "S1" && selectedJob.minEdu === "S2") {
-          return console.log("Pendidikan Anda terlalu rendah");
-        }
+        if (userEducation === "SMA" && selectedJob.minEdu !== "SMA") {
+          return console.log("Pendidikan Anda tidak sesuai");
+        } else if (userEducation === "SMK" && selectedJob.minEdu !== "SMK") {
+          return console.log("Pendidikan Anda tidak sesuai");
+        } else if (userEducation === "D3" && selectedJob.minEdu !== "SMA" && selectedJob.minEdu !== "SMK" && selectedJob.minEdu !== "D3") {
+          return console.log("Pendidikan Anda tidak sesuai");
+        } else if (userEducation === "S1" && selectedJob.minEdu !== "S1" && selectedJob.minEdu !== "SMA" && selectedJob.minEdu !== "SMK" && selectedJob.minEdu !== "D3") {
+          return console.log("Pendidikan Anda tidak sesuai");
+        }        
   
         await axios.patch(
           `https://auth-server-sigma.vercel.app/jobs/detail/${_id}/apply`,
@@ -95,10 +97,11 @@ export function Detail() {
             },
           }
         );
-        console.log("Anda telah berhasil melamar");
+        setSuccessMessage(true);
 
       } catch (error) {
         console.error("Gagal melamar lowongan", error);
+        setAppliedMesaage(true);
 
       }
     } else if (token && !userEducation) {
@@ -121,8 +124,6 @@ export function Detail() {
   if (!selectedJob) {
       return <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900"> <Spinner color="blue" size="large" /> </div>;
   }
-  //console.log(selectedJob);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
 
 
   return (
@@ -200,29 +201,35 @@ export function Detail() {
     <Button
       className="px-20"
       color="red"
-      disabled={!token || userEducation}
+      disabled={!token || !userEducation || 
+        (userEducation === "SMA" && selectedJob.minEdu !== "SMA") ||
+        (userEducation === "SMK" && selectedJob.minEdu !== "SMK") ||
+        (userEducation === "D3" && selectedJob.minEdu !== "SMA" && selectedJob.minEdu !== "SMK" && selectedJob.minEdu !== "D3") ||
+        (userEducation === "S1" && selectedJob.minEdu !== "S1" && selectedJob.minEdu !== "SMA" && selectedJob.minEdu !== "SMK" && selectedJob.minEdu !== "D3")
+      }
       onClick={handleApply}
     >
       Apply
     </Button>
     <div className="mt-5">
-    {isLoading && <p className="text-gray-500 italic">Loading...</p>}
-    {!token && <p className="text-red-500 italic">Silakan login terlebih dahulu sebelum melamar pekerjaan.</p>}
-    {!userEducation && token && <p className="text-red-500 text-sm italic">Silakan atur pendidikan Anda terlebih dahulu sebelum melamar pekerjaan.</p>}
-    {(userEducation === "SMA" && selectedJob.minEdu !== "SMA") && (
-      <p className="text-red-500 italic">Pendidikan Anda terlalu rendah untuk melamar pekerjaan ini.</p>
-    )}
-    {(userEducation === "SMK" && selectedJob.minEdu !== "SMA" && selectedJob.minEdu !== "SMK") && (
-      <p className="text-red-500 italic">Pendidikan Anda terlalu rendah untuk melamar pekerjaan ini.</p>
-    )}
-    {(userEducation === "D3" && selectedJob.minEdu !== "SMA" && selectedJob.minEdu !== "SMK" && selectedJob.minEdu !== "D3") && (
-      <p className="text-red-500 italic">Pendidikan Anda terlalu rendah untuk melamar pekerjaan ini.</p>
-    )}
-    {(userEducation === "S1" && selectedJob.minEdu === "S2") && (
-      <p className="text-red-500 italic">Pendidikan Anda terlalu rendah untuk melamar pekerjaan ini.</p>
-    )}
-    </div>
-  </div>
+          {isLoading && <p className="text-gray-500">Loading...</p>}
+          {!userEducation && token && <p className="text-red-500 text-sm">Silakan atur pendidikan Anda terlebih dahulu sebelum melamar pekerjaan.</p>}
+          {(userEducation === "SMA" && selectedJob.minEdu !== "SMA") && (
+            <p className="text-red-500">Pendidikan Anda tidak sesuai untuk melamar pekerjaan ini.</p>
+          )}
+          {(userEducation === "SMK" && selectedJob.minEdu !== "SMK") && (
+            <p className="text-red-500">Pendidikan Anda tidak sesuai untuk melamar pekerjaan ini.</p>
+          )}
+          {(userEducation === "D3" && selectedJob.minEdu !== "SMA" && selectedJob.minEdu !== "SMK" && selectedJob.minEdu !== "D3") && (
+            <p className="text-red-500">Pendidikan Anda tidak sesuai untuk melamar pekerjaan ini.</p>
+          )}
+          {(userEducation === "S1" && selectedJob.minEdu !== "S1" && selectedJob.minEdu !== "SMA" && selectedJob.minEdu !== "SMK" && selectedJob.minEdu !== "D3") && (
+            <p className="text-red-500">Pendidikan Anda tidak sesuai untuk melamar pekerjaan ini.</p>
+          )}
+          {successMessage && <p className="text-green-500">Anda telah berhasil melamar pekerjaan ini.</p>}
+          {appliedMessage && <p className="text-red-500">Anda sudah melamar pekerjaan ini sebelumnya.</p>}
+        </div>
+      </div>
     </div>
   );
 }
